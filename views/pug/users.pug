@@ -4,6 +4,6 @@ html
   body
     h1 Список пользователей
     ul
-      li Пользователь 1
-      li Пользователь 2
-      li Пользователь 3
+      each user in users
+        li
+          a(href=`/users/${user.id}`) #{user.name}
