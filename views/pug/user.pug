@@ -1,0 +1,9 @@
+doctype html
+html
+  head
+    title= user.name
+    link(rel='stylesheet', href='/styles.css')
+  body
+    h1 #{user.name}
+    p ID: #{user.id}
+    a(href='/users') ← Назад до списку
