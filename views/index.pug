@@ -1,0 +1,25 @@
+doctype html
+html
+  head
+    title PUG Page
+    link(rel="icon" href="/favicon.ico")
+    style.
+      body {
+        background: #{theme === 'dark' ? '#111' : '#fff'};
+        color: #{theme === 'dark' ? '#fff' : '#000'};
+        font-family: sans-serif;
+      }
+  body
+    h1 PUG — Current theme: #{theme}
+    form(action="/set-theme" method="POST")
+      select(name="theme")
+        option(value="light" selected=theme === 'light') Light
+        option(value="dark" selected=theme === 'dark') Dark
+      button(type="submit") Set Theme
+
+    hr
+    form(action="/register" method="POST")
+      input(type="text" name="username" placeholder="Username")
+      button(type="submit") Register
+    br
+    a(href="/protected") Go to protected

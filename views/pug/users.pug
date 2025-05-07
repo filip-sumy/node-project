@@ -1,9 +1,0 @@
-html
-  head
-    title Список пользователей
-  body
-    h1 Список пользователей
-    ul
-      each user in users
-        li
-          a(href=`/users/${user.id}`) #{user.name}
