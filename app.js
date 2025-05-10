@@ -1,68 +1,32 @@
+require('dotenv').config();
 const express = require('express');
-const cookieParser = require('cookie-parser');
-const jwt = require('jsonwebtoken');
-const path = require('path');
+const session = require('express-session');
+const passport = require('passport');
 const bodyParser = require('body-parser');
-
+const cookieParser = require('cookie-parser');
 const app = express();
-const PORT = 3000;
-const JWT_SECRET = 'your_secret_key';
 
-// Middleware
-app.use(express.static(path.join(__dirname, 'public')));
-app.use(cookieParser());
+require('./config/passport')(passport);
+
+app.set('view engine', 'ejs');
 app.use(bodyParser.urlencoded({ extended: false }));
+app.use(cookieParser());
 
-// Views
-app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'pug');
-
-// Middleware для теми
-app.use((req, res, next) => {
-    res.locals.theme = req.cookies.theme || 'light';
-    next();
-});
-
-// Middleware перевірки JWT
-function verifyJWT(req, res, next) {
-    const token = req.cookies.token;
-    if (!token) return res.status(401).send('Access denied');
-
-    try {
-        const decoded = jwt.verify(token, JWT_SECRET);
-        req.user = decoded;
-        next();
-    } catch (err) {
-        res.status(401).send('Invalid token');
+app.use(session({
+    secret: 'secretkey',
+    resave: false,
+    saveUninitialized: false,
+    cookie: {
+        httpOnly: true,
+        secure: false // Зробіть true при використанні HTTPS
     }
-}
+}));
 
-// Маршрути
-app.get('/', (req, res) => {
-    res.render('index', { theme: res.locals.theme });
-});
+app.use(passport.initialize());
+app.use(passport.session());
 
-app.get('/ejs', (req, res) => {
-    res.render('index.ejs', { theme: res.locals.theme });
-});
+app.use('/', require('./routes/auth'));
+app.use('/', require('./routes/oauth'));
+app.use('/', require('./routes/protected'));
 
-app.post('/set-theme', (req, res) => {
-    const theme = req.body.theme;
-    res.cookie('theme', theme, { maxAge: 7 * 24 * 60 * 60 * 1000 });
-    res.redirect(req.headers.referer || '/');
-});
-
-app.post('/register', (req, res) => {
-    const { username } = req.body;
-    const token = jwt.sign({ username }, JWT_SECRET, { expiresIn: '1h' });
-    res.cookie('token', token, { httpOnly: true });
-    res.send('User registered and token set');
-});
-
-app.get('/protected', verifyJWT, (req, res) => {
-    res.send(`Welcome, ${req.user.username}`);
-});
-
-app.listen(PORT, () => {
-    console.log(`http://localhost:${PORT}`);
-});
+app.listen(3000, () => console.log('Сервер працює на http://localhost:3000'));
