@@ -30,5 +30,6 @@ app.use('/', require('./routes/auth'));
 app.use('/', require('./routes/oauth'));
 app.use('/', require('./routes/protected'));
 app.use('/', require('./routes/posts'));
+app.use('/', require('./routes/pizza'));
 connectDB();
 app.listen(3000, () => console.log('Сервер працює на http://localhost:3000'));

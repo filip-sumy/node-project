@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Список піцц</title>
+    <meta charset="UTF-8">
+</head>
+<body>
+    <h1>🍕 Список піцц</h1>
+
+    <ul>
+        <% pizzas.forEach(pizza => { %>
+            <li>
+                <strong><%= pizza.name %></strong><br>
+                Інгредієнти: <%= pizza.ingredients.join(', ') %><br>
+                Ціна: <%= pizza.price %> грн
+            </li>
+        <% }) %>
+    </ul>
+</body>
+</html>
