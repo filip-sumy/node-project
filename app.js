@@ -1,4 +1,5 @@
 require('dotenv').config();
+const connectDB = require('./config/db');
 const express = require('express');
 const session = require('express-session');
 const passport = require('passport');
@@ -28,5 +29,6 @@ app.use(passport.session());
 app.use('/', require('./routes/auth'));
 app.use('/', require('./routes/oauth'));
 app.use('/', require('./routes/protected'));
-
+app.use('/', require('./routes/posts'));
+connectDB();
 app.listen(3000, () => console.log('Сервер працює на http://localhost:3000'));
