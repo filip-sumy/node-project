@@ -8,13 +8,15 @@
     <h1>🍕 Список піцц</h1>
 
     <ul>
-        <% pizzas.forEach(pizza => { %>
-            <li>
-                <strong><%= pizza.name %></strong><br>
-                Інгредієнти: <%= pizza.ingredients.join(', ') %><br>
-                Ціна: <%= pizza.price %> грн
-            </li>
-        <% }) %>
-    </ul>
+    <% pizzas.forEach(pizza => { %>
+        <li>
+            <strong><%= pizza.name %></strong><br>
+            Інгредієнти: 
+            <%= Array.isArray(pizza.ingredients) ? pizza.ingredients.join(', ') : 'не вказані' %><br>
+            Ціна: <%= pizza.price %> грн
+        </li>
+    <% }) %>
+</ul>
+
 </body>
 </html>
