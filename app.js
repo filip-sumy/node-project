@@ -38,7 +38,7 @@ connectDB()
     app.use('/', require('./routes/protected'));
     app.use('/', require('./routes/posts'));
     app.use('/', require('./routes/pizzas'));
-
+    app.use('/assignments', require('./routes/assignments'));
     app.listen(3000, () => {
       console.log('Сервер працює на http://localhost:3000');
     });
